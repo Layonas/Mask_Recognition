@@ -8,7 +8,7 @@ import { defineComponent, ref } from "vue";
 export default defineComponent({
     components: {
         Camera,
-        HelloWorld,
+        // HelloWorld,
     },
 
     setup() {
