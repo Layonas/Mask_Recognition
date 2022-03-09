@@ -62,8 +62,8 @@ export default defineComponent({
                     @snapshot="snap"
                     autoplay
                 >
-                </camera>
                 <button @click="snapshot" id="btn">Create Snapshot</button>
+                </camera>
             </div>
         </div>
     </div>
@@ -126,9 +126,9 @@ export default defineComponent({
 }
 
 #btn{
-    position: relative;
-    left: 59%;
-    bottom: 55%;
+    position: absolute;
+    bottom: 5px;
+    right: 40%;
     appearance: none;
     outline: 0;
     background-color: white;
@@ -136,9 +136,9 @@ export default defineComponent({
     padding: 10px 15px;
     color: #53e3a6;
     border-radius: 3px;
-    width: 100px;
+    width: 19%;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 13px;
     transition-duration: 0.25s;
 }
 
