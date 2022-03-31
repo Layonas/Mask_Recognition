@@ -1,75 +1,64 @@
 <script lang="ts">
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import Camera from "simple-vue-camera";
+// import Camera from "simple-vue-camera";
 import { defineComponent, ref } from "vue";
-// import HelloWorld from "./components/HelloWorld.vue";
+import cam from './components/Camera.vue';
+import welcome from './components/Welcome.vue';
 
 export default defineComponent({
     components: {
-        Camera,
+        cam,
+        welcome,
         // HelloWorld,
     },
 
     setup() {
         // Get a reference of the component
-        const camera = ref<InstanceType<typeof Camera>>();
+        // const camera = ref<InstanceType<typeof Camera>>();
 
-        // Use camera reference to call functions
-        const snapshot = async () => {
-            const blob = await camera.value?.snapshot(
-                { width: 1920, height: 1080 },
-                "image/png",
-                0.5
-            );
-            // To show the screenshot with an image tag, create a url
-        };
+        // // Use camera reference to call functions
+        // const snapshot = async () => {
+        //     const blob = await camera.value?.snapshot(
+        //         { width: 1920, height: 1080 },
+        //         "image/png",
+        //         0.5
+        //     );
+        //     // To show the screenshot with an image tag, create a url
+        // };
 
-        const snap = (blob: Blob) => {
-            console.log(blob);
-            console.log("SS taken");
-            console.log(blob.type);
-            const url = window.URL.createObjectURL(blob);
-            console.log(url);
-            // let link = document.createElement('a');
-            // link.href = url;
-            // link.setAttribute('download', 'photo.png');
-            // link.click();
-            const el = document.getElementById("image") as HTMLImageElement;
-            el.src = url;
-            el.style.visibility = "visible";
-        };
+        // const snap = (blob: Blob) => {
+        //     blob.stream
+        //     console.log(blob);
+        //     console.log("SS taken");
+        //     console.log(blob.type);
+        //     const url = window.URL.createObjectURL(blob);
+        //     console.log(url);
+        //     // let link = document.createElement('a');
+        //     // link.href = url;
+        //     // link.setAttribute('download', 'photo.png');
+        //     // link.click();
+        //     const el = document.getElementById("image") as HTMLImageElement;
+        //     el.src = url;
+        //     el.style.visibility = "visible";
+        // };
 
-        return {
-            camera,
-            snapshot,
-            snap,
-        };
+        // // setInterval(()=>{
+        // //     snapshot();
+        // // }, 500)
+
+        // return {
+        //     camera,
+        //     snapshot,
+        //     snap,
+        // };
     },
 });
 </script>
 
 <template>
-    <!-- <img alt="Vue logo" src="./assets/logo.png" /> -->
-    <h1>Your camera view.</h1>
-
-    <div class="container">
-        <div class="box">
-            <div class="camera-box">
-                <camera
-                    :resolution="{ width: 1920, height: 1080 }"
-                    ref="camera"
-                    @snapshot="snap"
-                    autoplay
-                >
-                <button @click="snapshot" id="btn">Create Snapshot</button>
-                </camera>
-            </div>
-        </div>
-    </div>
-    <div id="photo">
-        <img src="" alt="ss" id="image" />
-    </div>
+    <welcome />
+    <cam msg="Your Camera view!"/>
 </template>
 
 <style scoped>
@@ -81,7 +70,7 @@ export default defineComponent({
     color: #2c3e50;
 }
 
-#photo{
+/* #photo{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -160,5 +149,5 @@ code {
     padding: 2px 4px;
     border-radius: 4px;
     color: #304455;
-}
+} */
 </style>
