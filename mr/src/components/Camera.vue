@@ -16,13 +16,18 @@ export default defineComponent({
 
     const camera = ref<InstanceType<typeof Camera>>();
 
+    console.log(camera);
+
     let MenuActive = ref(false);
 
-    const loading = () =>{
+    const loading = async () =>{
+      const devices = await camera.value?.devices(["videoinput"]);
       console.log("Loading");
-      console.log(this)
-      
+      console.log(this);
 
+      if(devices.length <= 0) {
+        alert("No devices found");
+      }
     }
 
     const started = () =>{
