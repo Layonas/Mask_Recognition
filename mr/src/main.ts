@@ -4,7 +4,7 @@ import App from './App.vue'
 var path = window.location.pathname;
 var page = path.split("/").pop()?.split('.')[0];
 
-if(page === "index"){
+if(page === "index" || !page){
     createApp(App).mount('#app')
 } else if(page === "about"){
     console.log(page)
