@@ -1,6 +1,10 @@
 <script lang="ts">
 import { defineComponent, PropType, ref } from "vue";
 import Camera from 'simple-vue-camera';
+import axios from 'axios'
+
+
+
 
 export default defineComponent({
   components:{
@@ -25,6 +29,7 @@ export default defineComponent({
 
     }
 
+
     const started = () =>{
       console.log("Video started!");
     }
@@ -39,20 +44,36 @@ export default defineComponent({
             // To show the screenshot with an image tag, create a url
         };
 
+        
         const snap = (blob: Blob) => {
-            blob.stream
             console.log(blob);
+            const s = blobToFile(blob, "nasda.png");
+            console.log(s);
+            blob.stream
             console.log("SS taken");
             console.log(blob.type);
             const url = window.URL.createObjectURL(blob);
-            console.log(url);
-            // let link = document.createElement('a');
-            // link.href = url;
-            // link.setAttribute('download', 'photo.png');
-            // link.click();
-            const el = document.getElementById("image") as HTMLImageElement;
-            el.src = url;
-            el.style.visibility = "visible";
+            var reader = new FileReader();
+            reader.readAsDataURL(blob);
+            reader.onloadend = function() {
+              var base64data = reader.result;
+              console.log(base64data)
+              axios.post('http://127.0.0.1:5000/predict',{
+                blob: base64data
+              }).then((response) => {
+
+                console.log(url);
+                console.log(response);
+                // let link = document.createElement('a');
+                // link.href = url;
+                // link.setAttribute('download', 'photo.png');
+                // link.click();
+                const el = document.getElementById("image") as HTMLImageElement;
+                el.src = url;
+                el.style.visibility = "visible";
+              })
+            }
+            
         };
 
         const ChangeCameraEvent = async (id : string) =>{
