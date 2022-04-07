@@ -2,12 +2,7 @@
 import { defineComponent, PropType, ref } from "vue";
 import Camera from 'simple-vue-camera';
 import axios from 'axios'
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> 49146e3205f346989c03de42d1a465eb21ea4c26
+import { numberLiteral } from "@babel/types";
 
 export default defineComponent({
   components:{
@@ -23,17 +18,26 @@ export default defineComponent({
 
     const camera = ref<InstanceType<typeof Camera>>();
 
-    console.log(camera);
+    // if(!camera.value){
+    //   return alert("Something went wrong with camera, please try choosing the camera or refresh page.");
+    // }
 
     let MenuActive = ref(false);
+    let interval = ref(0);
+    let ss_interval = ref(0);
 
     const loading = async () =>{
+
       const devices = await camera.value?.devices(["videoinput"]);
+
       console.log("Loading");
-      console.log(this);
+
+      if(!devices){
+        return alert("No camera devices loaded!");
+      }
 
       if(devices.length <= 0) {
-        alert("No devices found");
+        return alert("No devices found! Please try to refresh or choose a valid camera device!");
       }
     }
 
@@ -44,65 +48,76 @@ export default defineComponent({
 
         // Use camera reference to call functions
         const snapshot = async () => {
-            const blob = await camera.value?.snapshot(
-                { width: 1280, height: 720 },
-                "image/png",
-                0.5
-            );
-            // To show the screenshot with an image tag, create a url
+          
+          if(interval.value == 1){
+            interval.value = 2;
+            //means it needs to be stopped;
+          }
+
+          if(interval.value == 0){
+
+            ss_interval.value = setInterval(async () => {
+              const blob = await camera.value?.snapshot(
+                  { width: 320, height: 240 },
+                  "image/png",
+                  0.01
+              );
+              // To show the screenshot with an image tag, create a url
+            }, 1000/30);
+
+            const start_button = document.getElementById("btn") as HTMLButtonElement;
+            start_button.textContent = "Stop recognition";
+
+            interval.value = 1;
+          }
+
+          if(interval.value == 2){
+            clearInterval(ss_interval.value);
+            ss_interval.value = 0;
+            interval.value = 0;
+            const start_button = document.getElementById("btn") as HTMLButtonElement;
+            start_button.textContent = "Start recognition";
+          }
         };
-        
-        const blobToFile = (theBlob: Blob, fileName:string): File => {
-          var b: any = theBlob;
-          //A Blob() is almost a File() - it's just missing the two properties below which we will add
-          b.lastModifiedDate = new Date();
-          b.name = fileName;
 
-          //Cast to a File() type
-          return <File>theBlob;
-        }
-
-        
         const snap = (blob: Blob) => {
-<<<<<<< HEAD
+          
+            //console.log(blob);
+            //blob.stream;
+            //console.log("SS taken");
+            //console.log(blob.type);
 
-=======
->>>>>>> 49146e3205f346989c03de42d1a465eb21ea4c26
-            console.log(blob);
-            const s = blobToFile(blob, "nasda.png");
-            console.log(s);
-            blob.stream
-            console.log("SS taken");
-            console.log(blob.type);
-            const url = window.URL.createObjectURL(blob);
+            //const url = window.URL.createObjectURL(blob);
+
             var reader = new FileReader();
             reader.readAsDataURL(blob);
-            reader.onloadend = function() {
-              var base64data = reader.result;
-<<<<<<< HEAD
-              console.log(base64data);
-=======
-              console.log(base64data)
->>>>>>> 49146e3205f346989c03de42d1a465eb21ea4c26
-              axios.post('http://127.0.0.1:5000/predict',{
-                blob: base64data
-              }).then((response) => {
 
-                console.log(url);
-                console.log(response);
+            reader.onloadend = function() {
+
+              var base64data = reader.result;
+              //console.log(base64data)
+
+              axios.post('http://127.0.0.1:5000/predict',{ // this will change if deployed online
+                blob: base64data
+              }).then((response) => { // response is base64 string
+
+                //console.log(url);
+                //console.log(response);
+                const base64 = "data:image/png;base64," + response.data;
+                //console.log(base64);
+
+                //console.log(reader.readAsDataURL(base64));
+
                 // let link = document.createElement('a');
                 // link.href = url;
                 // link.setAttribute('download', 'photo.png');
                 // link.click();
                 const el = document.getElementById("image") as HTMLImageElement;
-                el.src = url;
+                el.src = base64;
                 el.style.visibility = "visible";
+
               })
             }
-<<<<<<< HEAD
-
-=======
->>>>>>> 49146e3205f346989c03de42d1a465eb21ea4c26
             
         };
 
@@ -190,7 +205,7 @@ export default defineComponent({
         <div class="box">
             <div class="camera-box">
                 <camera
-                    :resolution="{ width: 1280, height: 720 }"
+                    :resolution="{ width: 480, height: 360 }"
                     ref="camera"
                     @loading="loading"
                     @camera-change="ChangeCameraEvent"
@@ -198,7 +213,7 @@ export default defineComponent({
                     @snapshot="snap"
                     autoplay
                 >
-                <button @click="snapshot" id="btn">Create Snapshot</button>
+                <button @click="snapshot" id="btn">Start recognition</button>
                 <button class="camera-button" @click="click"></button>
                 </camera>
             </div>
