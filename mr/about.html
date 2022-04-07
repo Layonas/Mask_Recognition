@@ -6,6 +6,36 @@
         <link rel="stylesheet" href="style.css" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Mask Recognition Project</title>
+
+        <style>
+            .table {
+                z-index: 100;
+            }
+            .center {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            table{
+                width: 40%;
+                border:solid rgb(185, 212, 204) 4px;
+                border-collapse: collapse;
+            }
+            td{
+                width: 50%;
+                text-align: center;
+                border:solid black 1px;
+                padding: 10px;
+            }
+
+            h1 {
+                margin-top: 20px;
+                text-align:center;
+            }
+            p {
+                width: 80%;
+                text-align:center;
+            }
+        </style>
     </head>
     <body>
         <div class="wrapper">
@@ -18,6 +48,27 @@
                     </ul>
                 </nav>
             </header>
+
+            <h1>Apie projektą</h1>
+            <p class="center">This is a university project to capture and print out results whether a person is wearing a mask or not.
+                To use this website you will need to allow camera access and if camera is incorrect choose a camera that would work.
+                By using this website you take full responsibility for any actions you take.</p>
+            <p class="center">More information will be presented in the future</p>
+
+            <div class="table">
+                <h1>Komandos nariai</h1>
+                <table class="center">
+                    <tr>
+                    <td><strong>Dovydas Žilys</strong><br /><br /><img src='./src/assets/temp.jpg' alt="Kaciukas" width="200px" /><br />"Dar pagalvosiu"</td>
+                    <td><strong>Aurimas Kliokys</strong><br /><br /><img src='./src/assets/temp.jpg' alt="Kaciukas" width="200px" /><br />"Arba tu arba tave"</td>
+                    </tr>
+                    <tr>
+                    <td><strong>Benas Ranauskas</strong><br /><br /><img src='./src/assets/temp.jpg' alt="Kaciukas" width="200px" /><br />"Pažėsim vėliau"</td>
+                    <td><strong>Gvidas Bertašius</strong><br /><br /><img src='./src/assets/temp.jpg' alt="Kaciukas" width="200px" /><br />"Svarbiausia 4.5 paskui tik sportinis interesas"</td>
+                    </tr>
+                </table>
+            </div>
+
             <div class="container">
                 <div id="app" style="position: relative; z-index: 2"></div>
             </div>

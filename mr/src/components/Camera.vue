@@ -2,6 +2,12 @@
 import { defineComponent, PropType, ref } from "vue";
 import Camera from 'simple-vue-camera';
 import axios from 'axios'
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 49146e3205f346989c03de42d1a465eb21ea4c26
 
 export default defineComponent({
   components:{
@@ -17,12 +23,20 @@ export default defineComponent({
 
     const camera = ref<InstanceType<typeof Camera>>();
 
+    console.log(camera);
+
     let MenuActive = ref(false);
 
-    const loading = () =>{
+    const loading = async () =>{
+      const devices = await camera.value?.devices(["videoinput"]);
       console.log("Loading");
-      console.log(this)
+      console.log(this);
+
+      if(devices.length <= 0) {
+        alert("No devices found");
+      }
     }
+
 
     const started = () =>{
       console.log("Video started!");
@@ -48,8 +62,12 @@ export default defineComponent({
           return <File>theBlob;
         }
 
+        
         const snap = (blob: Blob) => {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 49146e3205f346989c03de42d1a465eb21ea4c26
             console.log(blob);
             const s = blobToFile(blob, "nasda.png");
             console.log(s);
@@ -61,7 +79,11 @@ export default defineComponent({
             reader.readAsDataURL(blob);
             reader.onloadend = function() {
               var base64data = reader.result;
+<<<<<<< HEAD
               console.log(base64data);
+=======
+              console.log(base64data)
+>>>>>>> 49146e3205f346989c03de42d1a465eb21ea4c26
               axios.post('http://127.0.0.1:5000/predict',{
                 blob: base64data
               }).then((response) => {
@@ -77,7 +99,10 @@ export default defineComponent({
                 el.style.visibility = "visible";
               })
             }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 49146e3205f346989c03de42d1a465eb21ea4c26
             
         };
 
