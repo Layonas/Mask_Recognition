@@ -2,7 +2,6 @@
 import { defineComponent, PropType, ref } from "vue";
 import Camera from 'simple-vue-camera';
 import axios from 'axios'
-import { numberLiteral } from "@babel/types";
 
 export default defineComponent({
   components:{
@@ -48,7 +47,7 @@ export default defineComponent({
 
         // Use camera reference to call functions
         const snapshot = async () => {
-          
+
           if(interval.value == 1){
             interval.value = 2;
             //means it needs to be stopped;
@@ -143,27 +142,45 @@ export default defineComponent({
           if (!devices)
             return alert('No devices!');
 
-          console.log(devices);
-
           let ul = document.getElementById("devices") as HTMLUListElement;
+          
+          if(ul.childElementCount !== devices.length){
 
-          for(var i = 0; i < devices.length; i++){
-            let li = document.createElement("li") as HTMLLIElement;
-            let h2 = document.createElement("h2");
-            h2.addEventListener('click', async function(id){
-              const devices = await camera.value?.devices(["videoinput"]);
+            for(var i = 0; i < devices.length; i++){
+              let li = document.createElement("li") as HTMLLIElement;
+              let h2 = document.createElement("h2");
+              h2.addEventListener('click', async function(id){
+                const devices = await camera.value?.devices(["videoinput"]);
+  
+                if (!devices)
+                  return alert('No devices!');
 
-              if (!devices)
-                return alert('No devices!');
+                const items = ul.getElementsByTagName('li');
 
-              for(var i = 0; i < devices.length; i++)
-                if(devices[i].label === h2.innerText)
-                  camera?.value?.changeCamera(devices[i].deviceId);
-            });
-            h2.innerText = devices[i].label;
-            li.appendChild(h2);
-            ul.appendChild(li);
+                for(var i = 0; i < items.length; i++){
+                  const item = items[i] as HTMLLIElement;
+                  if(h2.innerText !== item.getElementsByTagName('h2')[0].innerText)
+                    item.style.borderLeftColor = 'rgba(166, 44, 43, 0.8)';
+                }
+  
+                for(var i = 0; i < devices.length; i++){
+                  if(devices[i].label === h2.innerText){
+                    camera?.value?.changeCamera(devices[i].deviceId);
+                    li.style.borderLeftColor = 'rgba(0, 209, 80, 0.8)'
+                  }
+                }
+              });
+              h2.innerText = devices[i].label;
+              li.appendChild(h2);
+              li.setAttribute("class", "device_list");
+              li.style.paddingLeft = '4px'
+              li.style.borderLeft = '6px solid rgba(166, 44, 43, 0.8)'
+              li.style.listStyleType = 'none';
+              ul.appendChild(li);
+            }
+            
           }
+
 
           let w = document.getElementById("camera-selector") as HTMLDivElement;
           w.classList.add("inactive");
