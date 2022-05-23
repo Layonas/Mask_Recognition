@@ -62,7 +62,7 @@ export default defineComponent({
                   0.01
               );
               // To show the screenshot with an image tag, create a url
-            }, 1000/5);
+            }, 1000/8);
 
             const start_button = document.getElementById("btn") as HTMLButtonElement;
             start_button.textContent = "Stop recognition";
