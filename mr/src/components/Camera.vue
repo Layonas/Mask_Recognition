@@ -57,12 +57,12 @@ export default defineComponent({
 
             ss_interval.value = setInterval(async () => {
               const blob = await camera.value?.snapshot(
-                  { width: 320, height: 240 },
+                  { width: 854, height: 480 },
                   "image/png",
                   0.01
               );
               // To show the screenshot with an image tag, create a url
-            }, 1000/30);
+            }, 1000/8);
 
             const start_button = document.getElementById("btn") as HTMLButtonElement;
             start_button.textContent = "Stop recognition";
@@ -111,6 +111,8 @@ export default defineComponent({
                 // link.href = url;
                 // link.setAttribute('download', 'photo.png');
                 // link.click();
+
+                //return console.log(response.data);
                 const el = document.getElementById("image") as HTMLImageElement;
                 el.src = base64;
                 el.style.visibility = "visible";
@@ -222,7 +224,7 @@ export default defineComponent({
         <div class="box">
             <div class="camera-box">
                 <camera
-                    :resolution="{ width: 480, height: 360 }"
+                    :resolution="{ width: 854, height: 480 }"
                     ref="camera"
                     @loading="loading"
                     @camera-change="ChangeCameraEvent"
